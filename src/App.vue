@@ -1,31 +1,103 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+<script>
+export default {
+  data() {
+    return {
+      title: 'My New Vue Title',
+      message: 'Welcome to Vue',
+      colorTestText: 'text color is green',
+      isGreen: true,
+      textStatus: {
+        green: true
+      },
+      computedUser: {
+        firstName: 'John',
+        lastName: 'doe0',
+        isMember: true,
+      },
+      users:[
+        {
+          firstName: 'John',
+          lastName: 'doe1',
+          isMember: true,
+        },
+        {
+          firstName: 'John',
+          lastName: 'doe2',
+          isMember: false,
+        },
+        {
+          firstName: 'John',
+          lastName: 'doe3',
+          isMember: true,
+        },
+      ]
+    }
+  },
+  computed: {
+    fullName() {
+      return this.computedUser.firstName + ' ' + this.computedUser.lastName
+    }
+  },
+  methods: {
+    addUser() {
+      this.users.push({
+        firstName: 'add John',
+        lastName: 'doe!',
+        isMember: true,
+      })
+    }
+  }
+}
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="vbind">
+    <h1 v-bind:title="message" v-bind:class="{ green: isGreen }">{{ title }}</h1>
+    <h2 :class="textStatus"> {{ colorTestText }}</h2>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <div class="computed">
+    <h2>-- computed --</h2>
+    <h3>{{ fullName }}さんのデータ</h3>
+    <p>Name: {{ fullName }}</p>
+  </div>
+  <div class="vfor">
+    <h2>-- v-for --</h2>
+    <div v-for="user in users" :key="user">
+      <p>Name: {{ user.firstName + ' ' + user.lastName }}</p>
+      <p v-if="user.isMember">メンバーです</p>
+      <p v-else>status: メンバーではありません</p>
+    </div>
+  </div>
+  <button class="vonButton" v-on:click="addUser">addUser!!</button>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+<style>
+.green {
+  color: green;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.vbind {
+  border: 2mm ridge green;
+  margin-bottom: 10px;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.vbind > h1 {
+  font-size: 2.5rem;
+  margin: 0 5px;
+}
+.computed {
+  border: 2mm ridge greenyellow;
+  margin-bottom: 10px;
+}
+.vfor {
+  border: 2mm ridge green
+}
+.vonButton {
+  margin-top: 10px;
+  color: #fff;
+  background-color: #eb6100;
+  border-radius: 100vh;
+}
+.vonButton:hover {
+  color: #fff;
+  background: #f56500;
 }
 </style>
