@@ -1,4 +1,7 @@
 <script>
+import { mapStores, mapActions } from 'pinia'
+import { useUsersStore } from '@/stores/basicFunction'
+const usersStore = useUsersStore;
 export default {
     data() {
         return {
@@ -14,34 +17,19 @@ export default {
                 lastName: 'doe0',
                 isMember: true,
             },
-            users: [
-                {
-                    firstName: 'John',
-                    lastName: 'doe1',
-                    isMember: true,
-                },
-                {
-                    firstName: 'John',
-                    lastName: 'doe2',
-                    isMember: false,
-                },
-                {
-                    firstName: 'John',
-                    lastName: 'doe3',
-                    isMember: true,
-                },
-            ]
         }
     },
     computed: {
         fullName() {
             return this.computedUser.firstName + ' ' + this.computedUser.lastName
-        }
+        },
+        ...mapStores(useUsersStore),
     },
     methods: {
-        addUser() {
-            this.users.push({
-                firstName: 'add John',
+        ...mapActions(useUsersStore, ['addUser']),
+        addNewUser() {
+            this.addUser({
+                firstName: 'add new John',
                 lastName: 'doe!',
                 isMember: true,
             })
@@ -67,13 +55,13 @@ export default {
     </div>
     <div class="vfor">
         <h2>-- v-for --</h2>
-        <div v-for="user in users" :key="user">
+        <div v-for="user in usersStore.users" :key="user">
             <p>Name: {{ user.firstName + ' ' + user.lastName }}</p>
             <p v-if="user.isMember">メンバーです</p>
             <p v-else>status: メンバーではありません</p>
         </div>
     </div>
-    <button class="vonButton" v-on:click="addUser">addUser!!</button>
+    <button class="vonButton" v-on:click="addNewUser">addUser!!</button>
     <button @click="openPage2">move page2</button>
 </template>
 
